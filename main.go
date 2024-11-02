@@ -8,15 +8,10 @@ import (
 
 func main() {
 	targetUrl := getUrl()
-	urlPrefix := targetUrl[0:4]
-	if urlPrefix != "www." {
-		panic("Please enter a valid URL")
-	}
-
 	targetElement := getElement()
-	// demoUrl := "https://www.trackingdifferences.com/ETF/ISIN/IE00B3RBWM25"
+	//demoUrl := "https://onepace.me/series/one-pace-english-sub/"
 
-	c := colly.NewCollector(colly.AllowedDomains("www.trackingdifferences.com"))
+	c := colly.NewCollector()
 
 	c.OnRequest(func(r *colly.Request) {
 		fmt.Println("Visiting", r.URL)
