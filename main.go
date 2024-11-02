@@ -7,7 +7,14 @@ import (
 )
 
 func main() {
-	targetUrl := "https://www.trackingdifferences.com/ETF/ISIN/IE00B3RBWM25"
+	targetUrl := getUrl()
+	urlPrefix := targetUrl[0:4]
+	if urlPrefix != "www." {
+		panic("Please enter a valid URL")
+	}
+
+	targetElement := getElement()
+	// demoUrl := "https://www.trackingdifferences.com/ETF/ISIN/IE00B3RBWM25"
 
 	c := colly.NewCollector(colly.AllowedDomains("www.trackingdifferences.com"))
 
@@ -19,9 +26,24 @@ func main() {
 		log.Println("Something went wrong:", err)
 	})
 
-	c.OnHTML("a[href]", func(e *colly.HTMLElement) {
+	c.OnHTML(targetElement, func(e *colly.HTMLElement) {
 		fmt.Println(e.Text)
 	})
 
 	c.Visit(targetUrl)
+}
+
+func getUrl() string {
+	var targetUrl string
+	fmt.Println("Enter a target URL to deploy flic flac:")
+	fmt.Scanln(&targetUrl)
+
+	return targetUrl
+}
+
+func getElement() string {
+	var targetElement string
+	fmt.Println("Enter a target HTML element for flic flac to extract from:")
+	fmt.Scanln(&targetElement)
+	return targetElement
 }
